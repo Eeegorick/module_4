@@ -1,0 +1,18 @@
+(urls.py)
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path ('', include ('app_advertisement.urls')),
+    path ('lesson_4/', include('app_lesson_4.urls')),
+]
+
+(app_lesson_4)
+from django.urls import path
+from .views import index
+
+
+urlpatterns = [d
+    path('lesson_4/', index)
+]
