@@ -1,0 +1,17 @@
+Чтобы дать таблице свое имя в Django, можно воспользоваться атрибутом db_table внутри определения модели. Нужно изменить название таблицы для модели Advertisement. Примерно так:
+class Advertisement(models.Model):
+
+    class Meta:
+        db_table = 'advertisements'
+
+После изменения в модели, нужно ввести следующие команды в терминале:
+python manage.py makemigrations
+python manage.py migrate
+
+Чтобы изменить строковое представление объекта модели, нужно переопределить метод __str__ внутри класса модели Advertisement (использовал вашу подсказку :D). Примерно так:
+class Advertisement(models.Model):
+
+    def __str__(self):
+        return f'<Advertisement: Advertisement(id={self.id}, title={self.title}, price={self.price:.2f})>'
+
+После внесения изменений, при выведении объектов модели Advertisement, они будут отображаться в заданном формате.
