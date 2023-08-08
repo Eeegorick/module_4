@@ -1,0 +1,35 @@
+В файле 'apps.py':
+from django.apps import AppConfig
+
+class YourAppConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'your_app_name'
+    verbose_name = 'Объявления'
+
+В файле 'settings.py':
+INSTALLED_APPS = [
+    ...
+    'your_app_name.apps.YourAppConfig',
+    ...
+]
+
+
+from django.contrib import admin
+from your_app_name.models import Advertisement
+
+class AdvertisementAdmin(admin.ModelAdmin):
+    list_display = ('title', 'formatted_created_at', 'formatted_updated_at')
+
+    def formatted_created_at(self, obj):
+        return obj.created_at.strftime('%Y-%m-%d %H:%M:%S')
+    formatted_created_at.short_description = 'Дата создания'
+
+    def formatted_updated_at(self, obj):
+        if obj.updated_at.date() == datetime.date.today():
+            return f'<span style="color: green;">Сегодня в {obj.updated_at.strftime("%H:%M:%S")}</span>'
+        else:
+            return obj.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+    formatted_updated_at.short_description = 'Последнее обновление'
+    formatted_updated_at.allow_tags = True
+
+admin.site.register(Advertisement, AdvertisementAdmin)
