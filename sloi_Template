@@ -1,0 +1,35 @@
+В файле base.html добавим блок для контента:
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}My Website{% endblock %}</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'index' %}">Главная</a></li>
+            <li><a href="{% url 'top_sellers' %}">Лидеры продаж</a></li>
+        </ul>
+    </nav>
+    
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+    
+</body>
+</html>
+
+
+В файле top-sellers.html наследуем base.html и заполняем блок контента:
+{% extends 'base.html' %}
+
+{% block title %}Лидеры продаж{% endblock %}
+
+{% block content %}
+    <h1>Лидеры продаж</h1>
+    <p>Контент о лидерах продаж</p>
+    <ul>
+        <li><a href="{% url 'product_detail' 1 %}">Продукт 1</a></li>
+        <li><a href="{% url 'product_detail' 2 %}">Продукт 2</a></li>
+    </ul>
+{% endblock %}
