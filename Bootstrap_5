@@ -1,0 +1,14 @@
+<body>
+<ul class = 'nav nav-pills nav-fill'>
+  <li class = 'nav-item'>
+    <a class = 'nav-link two' href = 'two.html'>Вторая страница</a>
+  </li>
+  <li class = 'nav-item'>
+    <a class = 'nav-link one' href = 'one.html'>Первая страница</a>
+  </li>
+  <li class = 'nav-item'>
+    <a class = 'nav-link другая' href = 'сайт.html'>Другая страница</a>
+  </li>
+</ul>
+    <a href = 'one.html'>Ссылка на первый</a>
+</body>
