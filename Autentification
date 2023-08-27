@@ -1,0 +1,52 @@
+У меня есть базовый шаблон 'base.html', и я размещаю плитки "Войти", "Регистрация", "Выйти" и "Профиль" в зависимости от статуса пользователя. Пример 'base.html':
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ваш сайт</title>
+</head>
+<body>
+    <div id="header">
+        <!-- другие элементы шапки -->
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}">Выйти</a>
+            <a href="{% url 'profile' %}">Профиль</a>
+        {% else %}
+            <a href="{% url 'login' %}">Войти</a>
+            <a href="{% url 'register' %}">Регистрация</a>
+        {% endif %}
+    </div>
+    
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    
+    <div id="footer">
+        <!-- другие элементы подвала -->
+    </div>
+</body>
+</html>
+Здесь я использовал теги Django {% if %} для создания условной конструкции.
+
+Для добавления возможности регистрации пользователя на сайте, я переопределил встроенную форму UserCreationForm и создал представление (view) для обработки регистрации.
+Пример 'forms.py':
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+
+class CustomUserCreationForm(UserCreationForm):
+
+Пример 'views.py':
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect
+from .forms import CustomUserCreationForm
+
+def register(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')  # перенаправление на страницу входа
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})
+(Пришлось немного подсмотреть информацию в интернете :D)
