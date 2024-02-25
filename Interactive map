@@ -1,0 +1,243 @@
+import folium
+from folium import IFrame
+from folium import plugins
+
+# Создаем карту
+my_map = folium.Map(location=[51.703577, 39.182393], zoom_start=11)
+
+# Добавляем управление слоями
+my_map.add_child(folium.LayerControl())
+
+# Добавляем кнопку для полноэкранного режима
+folium.plugins.Fullscreen().add_to(my_map)
+
+# Добавляем контроль для определения местоположения пользователя
+folium.plugins.LocateControl().add_to(my_map)
+
+# Функция для форматирования координат в градусах
+fmtr = "function(num) {return L.Util.formatNum(num, 3) + ' º ';};"
+
+# Добавляем показ координат курсора
+folium.plugins.MousePosition(position='topright', separator=' | ', prefix="Mouse:", lat_formatter=fmtr,
+                             lng_formatter=fmtr).add_to(my_map)
+
+# Добавляем инструменты рисования
+folium.plugins.Draw(export=True, filename='data.geojson', position='topleft', draw_options=None,
+                    edit_options=None).add_to(my_map)
+
+# Добавляем инструменты измерения
+folium.plugins.MeasureControl(position='topright', primary_length_unit='meters', secondary_length_unit='miles',
+                              primary_area_unit='sqmeters', secondary_area_unit='acres').add_to(my_map)
+
+# Добавляем первую метку
+popup_html_1 = """
+<!DOCTYPE html>
+<html>
+<head>
+<title>Popup 1</title>
+</head>
+<body>
+<h3><a href="https://ru.wikipedia.org/wiki/Памятник_Славы_(Воронеж)" target="_blank">Памятник славы</a></h3>
+<p>Мемориальный комплекс на братской могиле воинов Советской Армии, погибших в боях за Воронеж во время Великой Отечественной войны в 1942–1943 годах...</p>
+<p>Если вам понравился этот памятник, вы можете посмотреть на него вживую!</p>
+<button onclick="handleFeedback('yes')">Билеты</button>
+</body>
+<script>
+function handleFeedback(choice) {
+    if (choice === 'yes') {
+        window.open('https://bus.tutu.ru/raspisanie/Voronezh_Avtovokzal_Tsentralnyj/Voronezh--Pamyatnik_Slavy/  ', '_blank');
+        window.parent.postMessage({ closePopup: true }, '*');
+    } else {
+        window.parent.postMessage({ closePopup: true }, '*');
+    }
+}
+</script>
+</html>
+"""
+popup_1 = folium.Popup(IFrame(html=popup_html_1, width=300, height=270))
+tooltip_1 = 'Памятник славы'
+marker_1 = folium.Marker([51.70264285525511, 39.181541875285234], popup=popup_1, tooltip=tooltip_1)
+my_map.add_child(marker_1)
+
+# Добавляем вторую метку
+popup_html_2 = """
+<!DOCTYPE html>
+<html>
+<head>
+<title>Popup 2</title>
+</head>
+<body>
+<h3><a href="https://ru.wikipedia.org/wiki/Ротонда_(памятник,_Воронеж)" target="_blank">Памятник Ротонда</a></h3>
+<p>Здание Воронежской областной клинической больницы 1930-х годов, разрушенное во время битвы за Воронеж и не восстановленное как память о Великой Отечественной войне...</p>
+<p>Если вам понравился этот памятник, вы можете посмотреть на него вживую!</p>
+<button onclick="handleFeedback('yes')">Билеты</button>
+</body>
+<script>
+function handleFeedback(choice) {
+    if (choice === 'yes') {
+        window.open('http://www.example.com/liked', '_blank');
+        window.parent.postMessage({ closePopup: true }, '*');
+    } else {
+        window.parent.postMessage({ closePopup: true }, '*');
+    }
+}
+</script>
+</html>
+"""
+
+popup_2 = folium.Popup(IFrame(html=popup_html_2, width=300, height=270))
+tooltip_2 = 'Памятник Ротонда'
+marker_2 = folium.Marker([51.69368242911483, 39.2088108038627], popup=popup_2, tooltip=tooltip_2)
+my_map.add_child(marker_2)
+
+# Добавляем третью метку
+popup_html_3 = """
+<!DOCTYPE html>
+<html>
+<head>
+<title>Popup 3</title>
+</head>
+<body>
+<h3><a href="https://ru.wikipedia.org/wiki/Памятник_фронтовому_почтальону" target="_blank">Памятник фронтового почтальона</a></h3>
+<p>Установлен солдатам-защитникам Родины в память о военнослужащих Великой Отечественной войны. Это единственный в стране и в мире памятник военному почтальону...</p>
+<p>Если вам понравился этот памятник, вы можете посмотреть на него вживую!</p>
+<button onclick="handleFeedback('yes')">Билеты</button>
+</body>
+<script>
+function handleFeedback(choice) {
+    if (choice === 'yes') {
+        window.open('http://www.example.com/liked', '_blank');
+        window.parent.postMessage({ closePopup: true }, '*');
+    } else {
+        window.parent.postMessage({ closePopup: true }, '*');
+    }
+}
+</script>
+</html>
+"""
+popup_3 = folium.Popup(IFrame(html=popup_html_3, width=300, height=280))
+tooltip_3 = 'Памятник фронтового почтальона'
+marker_3 = folium.Marker([51.67131287076894, 39.209673819143504], popup=popup_3, tooltip=tooltip_3)
+my_map.add_child(marker_3)
+
+# Добавляем четвертую метку
+popup_html_4 = """
+<!DOCTYPE html>
+<html>
+<head>
+<title>Popup 4</title>
+</head>
+<body>
+<h3><a href="https://ru.wikipedia.org/wiki/Памятник_Т-34_(Воронеж)" target="_blank">Памятник отважным танкистам</a></h3>
+<p>Памятник был установлен в 1979 году и посвящен танкистам 17-го, 25-го и 18-го такового корпуса, а так же пятой танковой армии и другим бронетанковым соединениям, которые отважно сражались за свой город в 1942-1943 годах...</p>
+<p>Если вам понравился этот памятник, вы можете посмотреть на него вживую!</p>
+<button onclick="handleFeedback('yes')">Билеты</button>
+</body>
+<script>
+function handleFeedback(choice) {
+    if (choice === 'yes') {
+        window.open('http://www.example.com/liked', '_blank');
+        window.parent.postMessage({ closePopup: true }, '*');
+    } else {
+        window.parent.postMessage({ closePopup: true }, '*');
+    }
+}
+</script>
+</html>
+"""
+popup_4 = folium.Popup(IFrame(html=popup_html_4, width=300, height=280))
+tooltip_4 = 'Памятник отважным танкистам'
+marker_4 = folium.Marker([51.64666860899297, 39.12361260001939], popup=popup_4, tooltip=tooltip_4)
+my_map.add_child(marker_4)
+
+# Добавляем пятую метку
+popup_html_5 = """
+<!DOCTYPE html>
+<html>
+<head>
+<title>Popup 5</title>
+</head>
+<body>
+<h3><a href="https://ru.wikipedia.org/wiki/Площадь_Победы_(Воронеж)" target="_blank">Площадь победы</a></h3>
+<p>Площадь Победы и мемориальный комплекс на ней созданы в честь защитников Воронежа, сражавшихся за город в 1942—1943 г. Открытие площади состоялось 9 мая 1975 г. в честь 30-летия Дня Победы...</p>
+<p>Если вам понравился этот памятник, вы можете посмотреть на него вживую!</p>
+<button onclick="handleFeedback('yes')">Билеты</button>
+</body>
+<script>
+function handleFeedback(choice) {
+    if (choice === 'yes') {
+        window.open('http://www.example.com/liked', '_blank');
+        window.parent.postMessage({ closePopup: true }, '*');
+    } else {
+        window.parent.postMessage({ closePopup: true }, '*');
+    }
+}
+</script>
+</html>
+"""
+popup_5 = folium.Popup(IFrame(html=popup_html_5, width=300, height=280))
+tooltip_5 = 'Площадь победы'
+marker_5 = folium.Marker([51.671106809980905, 39.2106865027657], popup=popup_5, tooltip=tooltip_5)
+my_map.add_child(marker_5)
+
+popup_html_6 = """
+<!DOCTYPE html>
+<html>
+<head>
+<title>Popup 1</title>
+</head>
+<body>
+<h3><a href="https://ru.wikipedia.org/wiki/Чижовский_плацдарм" target="_blank">Чижовский плацдарм</a></h3>
+<p>Чижовка – это правобережный пригород Воронежа, в котором вплоть до освобождения города в 1943 году велись тяжелые бои. Советским войскам удалось закрепиться в этом районе, а затем перейти в наступление, отсюда и название: «Чижовский плацдарм». На Чижовке погибло около 17 тыс. человек. Мемориал начал строиться в 1973 году, наспех был сдан к юбилею в 1975 году, но затем дорабатывался и улучшался. В 1985 году, к 40-летию победы был готов окончательный вариант. «Чижовский плацдарм» – это заметная со значительного расстояния скульптурная группа из трех солдат в плащ-палатках, братская могила и зал памяти. Возле братской могилы еще одна скульптура – сраженный насмерть красноармеец. Во время последней реконструкции в 2012 году рядом с мемориалом отстроена часовня Дмитрия Донского.</p>
+<p>Если вам понравился этот памятник, вы можете посмотреть на него вживую!</p>
+<button onclick="handleFeedback('yes')">Билеты</button>
+</body>
+<script>
+function handleFeedback(choice) {
+    if (choice === 'yes') {
+        window.open('https://bus.tutu.ru/raspisanie/Voronezh_Avtovokzal_Tsentralnyj/Voronezh--Pamyatnik_Slavy/  ', '_blank');
+        window.parent.postMessage({ closePopup: true }, '*');
+    } else {
+        window.parent.postMessage({ closePopup: true }, '*');
+    }
+}
+</script>
+</html>
+"""
+popup_6 = folium.Popup(IFrame(html=popup_html_6, width=300, height=270))
+tooltip_6 = 'Чижовский плацдарм'
+marker_6 = folium.Marker([51.641098, 39.203240], popup=popup_6, tooltip=tooltip_6)
+my_map.add_child(marker_6)
+
+popup_html_7 = """
+<!DOCTYPE html>
+<html>
+<head>
+<title>Popup 1</title>
+</head>
+<body>
+<h3><a href="https://chr.aif.ru/voronezh/events/alleya_geroev_kakoy_podvig_stoit_za_kazhdym_urozhencem_voronezha_vo_vremya_vov/" target="_blank">Аллея героев</a></h3>
+<p>Двенадцать Героев Советского Союза и три полных кавалера ордена Славы – кто они, и какой подвиг стоит за каждым воином?</p>
+<p>Если вам понравился этот памятник, вы можете посмотреть на него вживую!</p>
+<button onclick="handleFeedback('yes')">Билеты</button>
+</body>
+<script>
+function handleFeedback(choice) {
+    if (choice === 'yes') {
+        window.open('https://bus.tutu.ru/raspisanie/Voronezh_Avtovokzal_Tsentralnyj/Voronezh--Pamyatnik_Slavy/  ', '_blank');
+        window.parent.postMessage({ closePopup: true }, '*');
+    } else {
+        window.parent.postMessage({ closePopup: true }, '*');
+    }
+}
+</script>
+</html>
+"""
+popup_7 = folium.Popup(IFrame(html=popup_html_7, width=300, height=270))
+tooltip_7 = 'Аллея героев'
+marker_7 = folium.Marker([51.660806247096936, 39.2472414533269], popup=popup_7, tooltip=tooltip_7)
+my_map.add_child(marker_7)
+
+
+# Сохраняем карту
+my_map.save('map.html')
